@@ -1,4 +1,6 @@
 <script>
+	import Footer from "./lib/Footer.svelte";
+
 	import router from "page";
 	import routes from "./routes";
 
@@ -28,16 +30,20 @@
 	console.log("Hello from Svelte!");
 </script>
 
-<nav>
-	<a href="/">Home</a>
-	<a href="/auth">Login/Register</a>
-	<a href="/friends">Friends</a>
-	<a href="/todos">Todos</a>
-</nav>
+<header>
+	<nav>
+		<a href="/">Home</a>
+		<a href="/auth">Login/Register</a>
+		<a href="/friends">Friends</a>
+		<a href="/todos">Todos</a>
+	</nav>
+</header>
 
 <main>
 	<svelte:component this={page} {params} />
 </main>
+
+<Footer />
 
 <style lang="sass">
 	nav
