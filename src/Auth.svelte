@@ -45,16 +45,16 @@
 	</section>
 	<div>
 		<label for="email">Email</label>
-		<input type="text" id="email" autocomplete="off" />
+		<input type="text" name="email" autocomplete="off" />
 	</div>
 	<div>
 		<label for="password">Password</label>
-		<input type="text" id="password" autocomplete="off" />
+		<input type="text" name="password" autocomplete="off" />
 	</div>
 	{#if authType === "register"}
 		<div>
 			<label for="username">Username</label>
-			<input type="text" id="username" autocomplete="off" />
+			<input type="text" name="username" autocomplete="off" />
 		</div>
 	{/if}
 	<p id="authErrorElement">{authError}</p>
