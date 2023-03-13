@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Footer from "./lib/Footer.svelte";
 
 	import router from "page";
@@ -27,7 +27,8 @@
 
 	router.start();
 
-	console.log("Hello from Svelte!");
+	const redirectedToPage: string | null = new URLSearchParams(location.search).get("page");
+	if (redirectedToPage) router.replace("/" + redirectedToPage);
 </script>
 
 <header>
