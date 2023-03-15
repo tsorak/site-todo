@@ -6,10 +6,6 @@
 
 	onMount(() => fetchFriends());
 
-	const session = {
-		userID: 0
-	};
-
 	let friends: Friend[];
 
 	getFriends((data) => {
@@ -58,7 +54,7 @@
 			<li class={friend.request.isPending ? "pending-friend" : ""}>
 				{friend.name}
 				<div>
-					{#if friend.request.isPending && friend.request.sender !== session.userID}
+					{#if friend.request.isPending && !friend.request.isSender}
 						<button class="accept-friend" on:click={(e) => handleFriendAccept(e, friend.name)}>Accept</button>
 					{/if}
 					<button class="remove-friend" on:click={(e) => handleFriendRemoval(e, friend.id)}>Remove</button>

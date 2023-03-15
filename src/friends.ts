@@ -1,10 +1,11 @@
 import { writable } from "svelte/store";
+import { getSession } from "./session";
 
 export interface Friend {
 	id: number;
 	name: string;
 	request: {
-		sender: number;
+		isSender: boolean;
 		isPending: boolean;
 	};
 }
@@ -14,11 +15,21 @@ const friends = writable([] as Friend[]);
 async function fetchFriends() {
 	try {
 		const res = await fetch("/api/friends");
-		const data = await res.json();
-		friends.set(data);
+		const data = (await res.json()) as { user: number; friend: number; status: string }[];
+
+		const sessionUserID = getSession().id;
+
+		const fetchedFriends = data.map((friend) => {
+			const id = friend.user === sessionUserID ? friend.friend : friend.user;
+			const isSender = friend.user === sessionUserID ? true : false;
+
+			return { id, name: `name${id}`, request: { isSender, isPending: friend.status === "pending" } };
+		});
+
+		friends.set(fetchedFriends);
 	} catch (error) {
 		console.error(error);
-		friends.set([{ id: 1, name: "John", request: { sender: 1, isPending: false } }]);
+		// friends.set([{ id: 1, name: "John", request: { sender: 1, isPending: false } }]);
 	}
 }
 
@@ -37,7 +48,7 @@ function addFriend(username: string) {
 		.then((res) => {
 			if (res.status !== 200) return { error: "Something went wrong" };
 
-			return { id: 3, name: "Elon", request: { sender: 3, isPending: true } };
+			return res.json();
 		})
 		.then((data: Friend | { error: string }) => {
 			if ("error" in data) return;

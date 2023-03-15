@@ -1,6 +1,9 @@
 <script lang="ts">
 	import Footer from "./lib/Footer.svelte";
 
+	import { initSession } from "./session";
+	initSession();
+
 	import router from "page";
 	import routes from "./routes";
 

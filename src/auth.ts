@@ -1,3 +1,5 @@
+import { initSession } from "./session";
+
 async function login(payload: { email: string; password: string }, statusElement: HTMLElement) {
 	statusElement.textContent = "Pending...";
 
@@ -10,10 +12,10 @@ async function login(payload: { email: string; password: string }, statusElement
 	});
 	handleAuthStatus(res.status, statusElement);
 
-	const data = await res.json();
-	console.log(data);
+	// const data = await res.json();
+	// console.log(data);
 
-	return data;
+	// return data;
 }
 
 async function register(payload: { email: string; password: string; username: string }, statusElement: HTMLElement) {
@@ -28,10 +30,10 @@ async function register(payload: { email: string; password: string; username: st
 	});
 	handleAuthStatus(res.status, statusElement);
 
-	const data = await res.json();
-	console.log(data);
+	// const data = await res.json();
+	// console.log(data);
 
-	return data;
+	// return data;
 }
 
 function handleAuthStatus(status: number, element: HTMLElement) {
@@ -61,6 +63,7 @@ function handleAuthStatus(status: number, element: HTMLElement) {
 			element.textContent = "An unexpected error occured...";
 			break;
 	}
+	if (status < 300 && status >= 200) initSession();
 }
 
 export { login, register };
