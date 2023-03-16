@@ -2,7 +2,7 @@
 	import router from "page";
 	import { onMount } from "svelte";
 
-	import { type Friend, getFriends, removeFriend, addFriend, fetchFriends } from "./friends";
+	import { type Friend, getFriends, removeFriend, addFriend, fetchFriends, acceptFriend } from "./friends";
 
 	onMount(() => fetchFriends());
 
@@ -26,17 +26,17 @@
 	}
 
 	function handleFriendRemoval(event: Event, friendID: number) {
-		removeFriend(friendID);
-
 		const button = event.target as HTMLButtonElement;
 		button.disabled = true;
+
+		removeFriend(friendID);
 	}
 
-	function handleFriendAccept(event: Event, friendName: string) {
+	function handleFriendAccept(event: Event, friendID: number) {
 		const button = event.target as HTMLButtonElement;
 		button.disabled = true;
 
-		addFriend(friendName);
+		acceptFriend(friendID);
 	}
 </script>
 
@@ -51,11 +51,11 @@
 	<h2>My Friends</h2>
 	<ul>
 		{#each friends as friend}
-			<li class={friend.request.isPending ? "pending-friend" : ""}>
+			<li class={!friend.request.isAccepted ? "pending-friend" : ""}>
 				{friend.name}
 				<div>
-					{#if friend.request.isPending && !friend.request.isSender}
-						<button class="accept-friend" on:click={(e) => handleFriendAccept(e, friend.name)}>Accept</button>
+					{#if !friend.request.isAccepted && !friend.request.isSender}
+						<button class="accept-friend" on:click={(e) => handleFriendAccept(e, friend.id)}>Accept</button>
 					{/if}
 					<button class="remove-friend" on:click={(e) => handleFriendRemoval(e, friend.id)}>Remove</button>
 				</div>
