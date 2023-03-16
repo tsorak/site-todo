@@ -50,15 +50,15 @@ function addFriend(username: string) {
 
 			return res.json();
 		})
-		.then((data: Friend | { error: string }) => {
+		.then((data: { user: number; friend: number; status: string } | { error: string }) => {
 			if ("error" in data) return;
 
-			friends.update((prev) => {
-				const pendingRequest = prev.find((friend) => friend.name === username);
-				if (!pendingRequest) return [...prev, data];
+			const sessionUserID = getSession().id;
 
-				pendingRequest.request.isAccepted = false;
-				return prev;
+			friends.update((prev) => {
+				const id = data.user === sessionUserID ? data.friend : data.user;
+
+				return [...prev, { id, name: `name${id}`, request: { isSender: true, isAccepted: false } }];
 			});
 		});
 }
