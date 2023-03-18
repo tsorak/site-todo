@@ -1,13 +1,12 @@
 import { writable } from "svelte/store";
-import { getSession } from "./session";
+
+//TODO: Convert to async functions
 
 export interface Friend {
 	id: number;
 	name: string;
-	request: {
-		isSender: boolean;
-		isAccepted: boolean;
-	};
+	status: string;
+	isInitiator: boolean;
 }
 
 const friends = writable([] as Friend[]);
@@ -15,27 +14,13 @@ const friends = writable([] as Friend[]);
 async function fetchFriends() {
 	try {
 		const res = await fetch("/api/friends");
-		const data = (await res.json()) as { user: number; friend: number; status: string }[];
+		const data = (await res.json()) as Friend[];
 
-		const sessionUserID = getSession().id;
-
-		const fetchedFriends = data.map((friend) => {
-			const id = friend.user === sessionUserID ? friend.friend : friend.user;
-			const isSender = friend.user === sessionUserID ? true : false;
-
-			return { id, name: `name${id}`, request: { isSender, isAccepted: friend.status !== "pending" } };
-		});
-
-		friends.set(fetchedFriends);
+		friends.set(data);
 	} catch (error) {
 		console.error(error);
-		// friends.set([{ id: 1, name: "John", request: { sender: 1, isAccepted: false } }]);
 	}
 }
-
-// friends.update((prev) => [...prev, { id: 1, name: "John", request: { sender: 1, isAccepted: false } }]);
-// friends.update((prev) => [...prev, { id: 2, name: "Joane", request: { sender: 0, isAccepted: true } }]);
-// friends.update((prev) => [...prev, { id: 3, name: "Elon", request: { sender: 3, isAccepted: true } }]);
 
 function addFriend(username: string) {
 	fetch(`/api/friends`, {
@@ -50,16 +35,10 @@ function addFriend(username: string) {
 
 			return res.json();
 		})
-		.then((data: { user: number; friend: number; status: string } | { error: string }) => {
+		.then((data: Friend | { error: string }) => {
 			if ("error" in data) return;
 
-			const sessionUserID = getSession().id;
-
-			friends.update((prev) => {
-				const id = data.user === sessionUserID ? data.friend : data.user;
-
-				return [...prev, { id, name: `name${id}`, request: { isSender: true, isAccepted: false } }];
-			});
+			friends.update((prev) => [...prev, data]);
 		});
 }
 
@@ -83,7 +62,7 @@ function acceptFriend(id: number) {
 				const pendingRequest = prev.find((friend) => friend.id === id);
 				if (!pendingRequest) return [...prev, data];
 
-				pendingRequest.request.isAccepted = true;
+				pendingRequest.status = "accepted";
 				return prev;
 			});
 		});

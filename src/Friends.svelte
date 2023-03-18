@@ -51,10 +51,10 @@
 	<h2>My Friends</h2>
 	<ul>
 		{#each friends as friend}
-			<li class={!friend.request.isAccepted ? "pending-friend" : ""}>
+			<li class={friend.status === "pending" ? "pending-friend" : ""}>
 				{friend.name}
 				<div>
-					{#if !friend.request.isAccepted && !friend.request.isSender}
+					{#if friend.status === "pending" && !friend.isInitiator}
 						<button class="accept-friend" on:click={(e) => handleFriendAccept(e, friend.id)}>Accept</button>
 					{/if}
 					<button class="remove-friend" on:click={(e) => handleFriendRemoval(e, friend.id)}>Remove</button>
