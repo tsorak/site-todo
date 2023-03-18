@@ -53,4 +53,11 @@
 	nav
 		display: flex
 		gap: 2rem
+		justify-content: center
+	main
+		display: flex
+		flex-direction: column
+		flex-grow: 1
+		margin-bottom: 1rem
+		height: 0
 </style>
