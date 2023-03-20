@@ -44,7 +44,7 @@
 
 <form on:submit={handleAddFriendSubmit}>
 	<input type="text" name="username" placeholder="Friends name" autocomplete="off" />
-	<input type="submit" value="Add Friend" />
+	<button type="submit">Add Friend</button>
 </form>
 
 <section>
@@ -65,42 +65,53 @@
 </section>
 
 <style lang="sass">
-    .pending-friend
-        border-color: #cc0
+	form
+		display: flex
+		justify-content: space-evenly
 
-    .accept-friend:hover
-        border-color: #0c0
-        color: #0c0
+		input[type="text"]
+			padding: 0.5rem
+			border: 1px solid #aaa
+			border-radius: 0.25rem
+			outline: none
+			font-size: 1rem
+		
+	.pending-friend
+		border-color: #cc0
 
-    .remove-friend:hover
-        border-color: #c00
-        color: #c00
+	.accept-friend:hover
+		border-color: #0c0
+		color: #0c0
 
-    ul
-        list-style: none
-        padding: 0
-        margin: 0
+	.remove-friend:hover
+		border-color: #c00
+		color: #c00
 
-        li
-            padding: 0.5rem 0.5rem 0.5rem 1rem
-            border: 1px solid #ccc
-            border-radius: 0.5rem
-            margin-bottom: 1rem
-            display: flex
-            justify-content: space-between
-            align-items: center
+	ul
+		list-style: none
+		padding: 0
+		margin: 0
 
-            button
-                padding: 0.5rem 1rem
-                border: 1px solid #1a1a1a
-                border-radius: 0.5rem
-                // background-color: #ccc
-                // color: #fff
-                outline: none
-                cursor: pointer
+		li
+			padding: 0.5rem 0.5rem 0.5rem 1rem
+			border: 1px solid #ccc
+			border-radius: 0.5rem
+			margin-bottom: 1rem
+			display: flex
+			justify-content: space-between
+			align-items: center
 
-                &:disabled
-                    color: #999 !important
-                    border-color: #1a1a1a !important
-                    cursor: not-allowed
+			button
+				padding: 0.5rem 1rem
+				border: 1px solid #1a1a1a
+				border-radius: 0.5rem
+				// background-color: #ccc
+				// color: #fff
+				outline: none
+				cursor: pointer
+
+				&:disabled
+					color: #999 !important
+					border-color: #1a1a1a !important
+					cursor: not-allowed
 </style>
