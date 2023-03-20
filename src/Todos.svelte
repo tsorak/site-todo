@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onMount, onDestroy } from "svelte";
 
 	import { getTodos, fetchTodoLists, toggleTodo, deleteTodo, createTodo, createTodoList } from "./todos";
 	import type { TodoList, TodoItem } from "./todos";
 
 	onMount(() => fetchTodoLists());
+	onDestroy(() => (todos = []));
 
 	let todos: TodoList[];
 	getTodos((data) => {
@@ -38,10 +39,6 @@
 	function handleDeleteTodo(id: TodoItem["id"]) {
 		deleteTodo(id);
 	}
-
-	$: getTodos((data) => {
-		console.log(data);
-	});
 
 	let createMode = false;
 </script>
