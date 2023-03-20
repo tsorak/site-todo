@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
-	import { getSession } from "./session";
-
 	import { getTodos, fetchTodoLists, toggleTodo, deleteTodo, createTodo, createTodoList } from "./todos";
 	import type { TodoList, TodoItem } from "./todos";
 

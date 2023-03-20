@@ -1,5 +1,3 @@
-import { initSession } from "./session";
-
 async function login(payload: { email: string; password: string }, statusElement: HTMLElement) {
 	statusElement.textContent = "Pending...";
 
@@ -63,7 +61,6 @@ function handleAuthStatus(status: number, element: HTMLElement) {
 			element.textContent = "An unexpected error occured...";
 			break;
 	}
-	if (status < 300 && status >= 200) initSession();
 }
 
 export { login, register };
