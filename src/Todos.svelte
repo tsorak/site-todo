@@ -52,12 +52,14 @@
 
 <div class="creator">
 	{#if createMode}
-		<form on:submit={(e) => handleCreateTodoList(e)}>
-			<input type="text" name="list_title" placeholder="Title" autocomplete="off" required />
-			<input type="submit" value="Create" />
-		</form>
+		<div class="todo-list">
+			<form on:submit={(e) => handleCreateTodoList(e)}>
+				<input type="text" name="list_title" placeholder="Enter a title" autocomplete="off" required />
+				<input type="submit" value="Create" />
+			</form>
+		</div>
 	{:else}
-		<input type="button" on:click={() => (createMode = true)} value="Create A Todo List" />
+		<input type="button" class="createList" on:click={() => (createMode = true)} value="Create A Todo List" />
 	{/if}
 </div>
 
@@ -134,6 +136,9 @@
 					color: #000
 					font-size: .75em
 	.scrollable
+		display: flex
+		flex-direction: column
+		gap: 2rem
 		overflow-y: auto
 		height: 100%
 	.creator
@@ -141,8 +146,27 @@
 		form
 			display: flex
 			flex-direction: column
-			gap: 1em
+			gap: 2em
 			input[type="text"]
-				font-size: 1.2em
+				text-align: center
+				font-size: 1.5em
+				font-weight: 600
 				padding: 0.5em
+				&::placeholder
+					color: #444
+					font-weight: 400
+	.createList
+		font-size: 1.5em
+		font-weight: 600
+		padding: 0.5em
+		width: 100%
+		text-align: center
+		background: #c7ac4a
+		border: 1px solid black
+		color: #646cff
+		cursor: pointer
+		transition: transform 0.2s
+		&:hover
+			transform: scale(1.05)
+			color: #535bf2
 </style>
